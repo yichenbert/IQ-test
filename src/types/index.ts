@@ -1,12 +1,14 @@
 export type Difficulty = 'easy' | 'medium' | 'hard' | 'genius'
 
-export type Category = 
+export type PresetCategory = 
   | 'math' 
   | 'logic' 
   | 'spatial' 
   | 'probability' 
   | 'algorithm' 
   | 'deduction'
+
+export type Category = PresetCategory | (string & {})
 
 export type QuestionType = 'single-choice' | 'multiple-choice' | 'fill-blank' | 'free-response'
 
@@ -55,6 +57,9 @@ export interface LLMConfig {
   baseURL: string
   model: string
   temperature: number
+  isKeyProtected?: boolean
+  accessPasscode?: string
+  maskedKey?: string
 }
 
 export interface AIEvalItemResult {

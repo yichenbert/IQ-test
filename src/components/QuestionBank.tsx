@@ -17,7 +17,7 @@ import {
   Tag,
 } from 'lucide-react'
 import type { Question, Category, Difficulty, QuestionType } from '../types'
-import { CATEGORY_LABELS, DIFFICULTY_LABELS } from '../utils/iqCalculator'
+import { CATEGORY_LABELS, DIFFICULTY_LABELS, getCategoryInfo } from '../utils/iqCalculator'
 import { MathRenderer } from './MathRenderer'
 import { buildQuestionPrompt } from '../utils/aiEvaluator'
 
@@ -66,7 +66,7 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
       }
       return true
     })
-  }, [questions, selectedCategory, selectedDifficulty, searchTerm])
+  }, [questions, selectedCategory, selectedDifficulty, selectedType, searchTerm])
 
   const toggleExpand = (id: string) => {
     setExpandedIds(prev => {
@@ -273,15 +273,17 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
             <span>2024 阿里数学竞赛 ({questions.filter(q => q.tags?.includes('2024阿里巴巴全球数学竞赛')).length})</span>
           </button>
 
-          {Object.entries(CATEGORY_LABELS).map(([catKey, info]) => {
+          {Array.from(new Set([...Object.keys(CATEGORY_LABELS), ...questions.map(q => q.category)])).map(catKey => {
             const count = questions.filter(q => q.category === catKey).length
+            if (count === 0 && !CATEGORY_LABELS[catKey]) return null
+            const info = getCategoryInfo(catKey)
             return (
               <button
                 key={catKey}
                 onClick={() => setSelectedCategory(catKey as Category)}
                 className={`px-2.5 py-1 rounded-lg transition-colors whitespace-nowrap flex items-center gap-1 ${
                   selectedCategory === catKey
-                    ? 'bg-indigo-600 text-white font-medium'
+                    ? 'bg-indigo-600 text-white font-medium shadow-md shadow-indigo-600/30'
                     : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'
                 }`}
               >
@@ -306,7 +308,7 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
         <div className="space-y-4">
           {filteredQuestions.map((q, index) => {
             const isExpanded = expandedIds.has(q.id)
-            const catInfo = CATEGORY_LABELS[q.category] || CATEGORY_LABELS.math
+            const catInfo = getCategoryInfo(q.category)
             const diffInfo = DIFFICULTY_LABELS[q.difficulty] || DIFFICULTY_LABELS.medium
 
             return (

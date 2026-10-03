@@ -1,12 +1,23 @@
-import type { Category, Difficulty } from '../types'
+import type { Difficulty } from '../types'
 
-export const CATEGORY_LABELS: Record<Category, { label: string; icon: string; color: string }> = {
+export const CATEGORY_LABELS: Record<string, { label: string; icon: string; color: string }> = {
   math: { label: '数理逻辑与微积分', icon: '∑', color: 'from-blue-500 to-indigo-600' },
   logic: { label: '数理逻辑与公理', icon: '∧', color: 'from-violet-500 to-purple-600' },
   spatial: { label: '空间拓扑与几何结构', icon: '◬', color: 'from-emerald-500 to-teal-600' },
   probability: { label: '贝叶斯与随机过程', icon: 'Ω', color: 'from-amber-500 to-orange-600' },
   algorithm: { label: '信息论与动力系统', icon: '⚡', color: 'from-cyan-500 to-blue-600' },
   deduction: { label: '多智能体与归纳博弈', icon: '♟', color: 'from-rose-500 to-pink-600' },
+}
+
+export function getCategoryInfo(category: string): { label: string; icon: string; color: string } {
+  if (CATEGORY_LABELS[category]) {
+    return CATEGORY_LABELS[category]
+  }
+  return {
+    label: category,
+    icon: '📑',
+    color: 'from-indigo-500 to-cyan-600',
+  }
 }
 
 export const DIFFICULTY_LABELS: Record<Difficulty, { label: string; badge: string; weight: number }> = {

@@ -12,7 +12,9 @@ export interface PolishAnswerParams {
   title: string
   description?: string
   type: QuestionType
+  options?: OptionItem[]
   userRawNotes: string
+  imageBase64?: string
   config: LLMConfig
   signal?: AbortSignal
 }
@@ -211,29 +213,40 @@ export async function polishAnswerAndProofWithAI({
   title,
   description,
   type,
+  options,
   userRawNotes,
+  imageBase64,
   config,
   signal,
 }: PolishAnswerParams): Promise<{ answer: string | string[]; explanation: string }> {
   const endpoint = `${cleanBaseUrl(config.baseURL)}/chat/completions`
 
-  const prompt = `你是一位高阶数理专家与 LaTeX 排版名师。
-请针对以下题目以及用户手动输入的简要答案/解题思路草稿，完成：
-1. 提炼出标准统一的核心答案表达式 (answer)。
-2. 将用户草稿扩充并排版为步骤严谨、逻辑闭环、富含标准 LaTeX 数学公式（行内使用 $...$，独立行使用 $$...$$）的权威详细推导与证明过程 (explanation)。
+  let prompt = `你是一位高阶数理专家与 LaTeX 排版名师。
+请针对以下题目以及用户手动输入的简要答案/解题思路草稿（或草稿纸照片），完成：
+1. 提炼出标准统一的核心答案结论 (answer)。如果题型是选择题（single-choice/multiple-choice），必须根据选项匹配出对应的选项字母（如 "B" 或 ["A", "C"]）。
+2. 将用户草稿扩充并规范排版为步骤严谨、逻辑闭环、富含标准 LaTeX 数学公式（行内使用 $...$，独立行使用 $$...$$）的权威详细推导与证明过程 (explanation)。
 
 【题目标题】：${title}
 【题型】：${type}
 ${description ? `【题目内容】：\n${description}` : ''}
+${options && options.length > 0 ? `【备选项】：\n${options.map(o => `${o.label}. ${o.text}`).join('\n')}` : ''}
 
 【用户手动输入的简要答案或推导思路草稿】：
-${userRawNotes}
+${userRawNotes || '（用户未输入文字，请参考所附草稿图片或题目推导标准正解）'}
 
 请严格按以下 JSON 格式返回：
 {
-  "answer": "提炼出的最终核心答案结论",
+  "answer": "提炼出的最终核心答案结论（选择题输出对应选项字母，如 B）",
   "explanation": "经过严密推演、精细排版、公式完备的详细题解与证明步骤"
 }`
+
+  const userContent: any[] = [{ type: 'text', text: prompt }]
+  if (imageBase64) {
+    userContent.push({
+      type: 'image_url',
+      image_url: { url: imageBase64 },
+    })
+  }
 
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -252,7 +265,7 @@ ${userRawNotes}
           role: 'system',
           content: 'You are an expert mathematical typesetter and theorem prover. Output strictly valid JSON.',
         },
-        { role: 'user', content: prompt },
+        { role: 'user', content: userContent },
       ],
       temperature: config.temperature ?? 0.2,
     }),

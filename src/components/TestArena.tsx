@@ -15,10 +15,10 @@ import {
 import confetti from 'canvas-confetti'
 import type { Question, Category, TestSessionResult, UserAnswerRecord } from '../types'
 import {
-  CATEGORY_LABELS,
   DIFFICULTY_LABELS,
   calculateEstimatedIQ,
   getIQEvaluationTitle,
+  getCategoryInfo,
 } from '../utils/iqCalculator'
 import { MathRenderer } from './MathRenderer'
 import { checkAnswerCorrectness } from '../utils/aiEvaluator'
@@ -347,7 +347,7 @@ export const TestArena: React.FC<TestArenaProps> = ({
               第 {currentIndex + 1} / {testQuestions.length} 题
             </span>
             <span className="text-xs px-2.5 py-1 rounded-lg bg-slate-800 text-indigo-300 border border-slate-700">
-              {CATEGORY_LABELS[currentQ.category]?.icon} {CATEGORY_LABELS[currentQ.category]?.label}
+              {getCategoryInfo(currentQ.category).icon} {getCategoryInfo(currentQ.category).label}
             </span>
             <span
               className={`text-xs px-2 py-0.5 rounded-md border hidden sm:inline ${
@@ -615,7 +615,7 @@ export const TestArena: React.FC<TestArenaProps> = ({
           <div className="space-y-3">
             {Object.entries(sessionResult.categoryStats).map(([catKey, stats]) => {
               if (stats.total === 0) return null
-              const info = CATEGORY_LABELS[catKey as Category] || { label: catKey, icon: '•', color: 'from-blue-500 to-indigo-600' }
+              const info = getCategoryInfo(catKey)
               const rate = Math.round((stats.correct / stats.total) * 100)
 
               return (

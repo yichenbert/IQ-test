@@ -75,20 +75,39 @@ export function loadLLMConfig(): LLMConfig {
     if (raw) {
       return JSON.parse(raw)
     }
+    // Check backup key so it never disappears on version upgrades
+    const backupRaw = localStorage.getItem(STORAGE_KEYS.LLM_CONFIG + '_backup')
+    if (backupRaw) {
+      const parsed = JSON.parse(backupRaw)
+      localStorage.setItem(STORAGE_KEYS.LLM_CONFIG, backupRaw)
+      return parsed
+    }
   } catch (e) {
     console.error('Failed to load LLM config', e)
   }
+
+  // Fallback to Vite env variables if injected at build or runtime
+  const envKey = (import.meta as any).env?.VITE_AI_API_KEY || ''
+  const envBase = (import.meta as any).env?.VITE_AI_BASE_URL || 'https://api.openai.com/v1'
+  const envModel = (import.meta as any).env?.VITE_AI_MODEL || 'gpt-4o'
+  const envPass = (import.meta as any).env?.VITE_ACCESS_PASSCODE || ''
+
   return {
-    apiKey: '',
-    baseURL: 'https://api.openai.com/v1',
-    model: 'gpt-4o',
+    apiKey: envKey,
+    baseURL: envBase,
+    model: envModel,
     temperature: 0.1,
+    isKeyProtected: Boolean(envPass),
+    accessPasscode: envPass,
   }
 }
 
 export function saveLLMConfig(config: LLMConfig): void {
   try {
-    localStorage.setItem(STORAGE_KEYS.LLM_CONFIG, JSON.stringify(config))
+    const str = JSON.stringify(config)
+    localStorage.setItem(STORAGE_KEYS.LLM_CONFIG, str)
+    // Double persistent backup to avoid disappearing on clear or refresh
+    localStorage.setItem(STORAGE_KEYS.LLM_CONFIG + '_backup', str)
   } catch (e) {
     console.error('Failed to save LLM config', e)
   }

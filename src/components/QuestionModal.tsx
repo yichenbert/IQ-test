@@ -1,12 +1,14 @@
 import React, { useState, useRef } from 'react'
-import { X, Sparkles, Plus, Trash2, Eye, Code, HelpCircle } from 'lucide-react'
-import type { Question, Category, Difficulty, QuestionType, OptionItem } from '../types'
+import { X, Sparkles, Plus, Trash2, Eye, Code, HelpCircle, Upload, CheckCircle2, AlertCircle } from 'lucide-react'
+import type { Question, Category, Difficulty, QuestionType, OptionItem, LLMConfig } from '../types'
 import { CATEGORY_LABELS, DIFFICULTY_LABELS } from '../utils/iqCalculator'
 import { MathRenderer } from './MathRenderer'
+import { polishAnswerAndProofWithAI } from '../utils/aiVisionImporter'
 
 interface QuestionModalProps {
   isOpen: boolean
   questionToEdit?: Question | null
+  config?: LLMConfig
   onClose: () => void
   onSave: (question: Question) => void
 }
@@ -35,11 +37,10 @@ const LATEX_SHORTCUTS = [
 export const QuestionModal: React.FC<QuestionModalProps> = ({
   isOpen,
   questionToEdit,
+  config,
   onClose,
   onSave,
 }) => {
-  if (!isOpen) return null
-
   const isEditing = Boolean(questionToEdit)
 
   const [title, setTitle] = useState(questionToEdit?.title || '')
@@ -66,6 +67,82 @@ export const QuestionModal: React.FC<QuestionModalProps> = ({
   )
   const [tagsStr, setTagsStr] = useState(questionToEdit?.tags?.join(', ') || '数学, 导数, 极值')
   const [previewTab, setPreviewTab] = useState<'split' | 'edit' | 'preview'>('split')
+
+  // AI 答案识别与排版助手
+  const isPendingAnswer = questionToEdit?.answer === '待补充答案' || !questionToEdit?.answer
+  const [showAiHelper, setShowAiHelper] = useState<boolean>(isPendingAnswer)
+  const [aiDraftNotes, setAiDraftNotes] = useState('')
+  const [aiScratchImage, setAiScratchImage] = useState<string | null>(null)
+  const [isPolishing, setIsPolishing] = useState(false)
+  const [polishMsg, setPolishMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+
+  const handlePasteScratchImage = (e: React.ClipboardEvent) => {
+    const items = e.clipboardData?.items
+    if (!items) return
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.startsWith('image/')) {
+        const file = items[i].getAsFile()
+        if (file) {
+          const reader = new FileReader()
+          reader.onload = ev => {
+            setAiScratchImage(ev.target?.result as string)
+          }
+          reader.readAsDataURL(file)
+          e.preventDefault()
+          break
+        }
+      }
+    }
+  }
+
+  const handleRunAiPolish = async () => {
+    if (!config?.apiKey) {
+      setPolishMsg({
+        type: 'error',
+        text: '未检测到 API Key，请先在「AI 识图录入」或设置中填入 API 密钥以调用大模型。',
+      })
+      return
+    }
+    if (!aiDraftNotes.trim() && !aiScratchImage) {
+      setPolishMsg({
+        type: 'error',
+        text: '请输入您的答案草稿、思路碎片，或上传/粘贴草稿纸截图。',
+      })
+      return
+    }
+
+    setIsPolishing(true)
+    setPolishMsg(null)
+
+    try {
+      const res = await polishAnswerAndProofWithAI({
+        title,
+        description,
+        type,
+        options,
+        userRawNotes: aiDraftNotes,
+        imageBase64: aiScratchImage || undefined,
+        config,
+      })
+
+      setAnswer(res.answer)
+      setExplanation(res.explanation)
+      setPolishMsg({
+        type: 'success',
+        text: '✨ 已成功完成 AI 识别与 LaTeX 排版！核心答案与推导解析已自动填充。',
+      })
+      if (previewTab === 'edit') {
+        setPreviewTab('split')
+      }
+    } catch (err: any) {
+      setPolishMsg({
+        type: 'error',
+        text: err.message || 'AI 排版请求异常，请检查网络或模型配置',
+      })
+    } finally {
+      setIsPolishing(false)
+    }
+  }
 
   const [activeField, setActiveField] = useState<'desc' | 'explanation' | number>('desc')
   const descRef = useRef<HTMLTextAreaElement>(null)
@@ -173,6 +250,8 @@ export const QuestionModal: React.FC<QuestionModalProps> = ({
     onClose()
   }
 
+  if (!isOpen) return null
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4">
       <div className="relative w-full max-w-6xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl flex flex-col max-h-[92vh] overflow-hidden text-slate-200">
@@ -276,6 +355,11 @@ export const QuestionModal: React.FC<QuestionModalProps> = ({
                           {info.icon} {info.label}
                         </option>
                       ))}
+                      {!CATEGORY_LABELS[category] && (
+                        <option value={category}>
+                          📑 {category} (文档/自定义分类)
+                        </option>
+                      )}
                     </select>
                   </div>
 
@@ -327,6 +411,119 @@ export const QuestionModal: React.FC<QuestionModalProps> = ({
                     placeholder="输入题干，支持行内 $x$ 和公式块 $$\frac{a}{b}$$..."
                     className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white font-mono focus:outline-none focus:border-indigo-500 transition-colors"
                   />
+                </div>
+
+                {/* AI 答案识别与智能 LaTeX 排版助手 */}
+                <div className="bg-gradient-to-r from-indigo-950/40 via-purple-950/30 to-slate-900 border border-indigo-500/30 rounded-xl p-3.5 space-y-3 shadow-inner">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                        <Sparkles className="w-3.5 h-3.5" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-bold text-indigo-200 flex items-center gap-1.5">
+                          AI 识别我的答案并智能排版
+                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-indigo-500/20 text-indigo-300 font-normal border border-indigo-500/30">
+                            免敲 LaTeX 公式
+                          </span>
+                        </h4>
+                        <p className="text-[11px] text-slate-400">
+                          文档导入无答案时，在此直接输入您的粗略思路或草稿，AI 自动提炼标准答案并排版严密 LaTeX 推导
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowAiHelper(!showAiHelper)}
+                      className="text-xs text-indigo-400 hover:text-indigo-300 font-medium px-2 py-1 rounded-lg bg-indigo-900/40 hover:bg-indigo-900/60 border border-indigo-500/30 transition-colors"
+                    >
+                      {showAiHelper ? '收起助手' : '展开 AI 助手'}
+                    </button>
+                  </div>
+
+                  {showAiHelper && (
+                    <div className="space-y-2.5 pt-2 border-t border-indigo-500/20" onPaste={handlePasteScratchImage}>
+                      <div>
+                        <textarea
+                          rows={3}
+                          value={aiDraftNotes}
+                          onChange={e => setAiDraftNotes(e.target.value)}
+                          placeholder="输入您的简要解题思路、粗略答案草稿（例如：'选C，因为在驻点处二阶导大于0'，或只写 '1/2'，或一段零散推演，也可直接在此按 Ctrl+V 粘贴草稿纸截图）..."
+                          className="w-full px-3 py-2 bg-slate-950/90 border border-indigo-500/30 rounded-lg text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-400 font-sans"
+                        />
+                      </div>
+
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <label className="cursor-pointer inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 border border-slate-700 transition-colors">
+                            <Upload className="w-3.5 h-3.5 text-indigo-400" />
+                            <span>{aiScratchImage ? '更换草稿图片' : '上传/粘贴草稿纸截图'}</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={e => {
+                                const f = e.target.files?.[0]
+                                if (f) {
+                                  const r = new FileReader()
+                                  r.onload = ev => setAiScratchImage(ev.target?.result as string)
+                                  r.readAsDataURL(f)
+                                }
+                              }}
+                            />
+                          </label>
+                          {aiScratchImage && (
+                            <div className="flex items-center gap-1 text-xs text-emerald-400 bg-emerald-950/40 border border-emerald-500/30 px-2 py-0.5 rounded-lg">
+                              <span>已载入图片草稿</span>
+                              <button
+                                type="button"
+                                onClick={() => setAiScratchImage(null)}
+                                className="text-slate-400 hover:text-rose-400 ml-1"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+
+                        <button
+                          type="button"
+                          disabled={isPolishing}
+                          onClick={handleRunAiPolish}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md shadow-indigo-600/30 transition-all disabled:opacity-50 cursor-pointer"
+                        >
+                          {isPolishing ? (
+                            <>
+                              <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                              <span>AI 正在严密推导排版...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Sparkles className="w-3.5 h-3.5" />
+                              <span>⚡ AI 智能提炼答案并排版</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+
+                      {polishMsg && (
+                        <div
+                          className={`text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 ${
+                            polishMsg.type === 'success'
+                              ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300'
+                              : 'bg-rose-950/60 border border-rose-500/40 text-rose-300'
+                          }`}
+                        >
+                          {polishMsg.type === 'success' ? (
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                          ) : (
+                            <AlertCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                          )}
+                          <span>{polishMsg.text}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {type !== 'fill-blank' && type !== 'free-response' ? (

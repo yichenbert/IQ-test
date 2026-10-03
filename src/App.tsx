@@ -143,6 +143,7 @@ export function App() {
             config={llmConfig}
             onSaveConfig={handleSaveConfig}
             onAddQuestionToBank={handleSaveQuestion}
+            onBatchAddQuestions={handleImportQuestions}
             onNavigateToBank={() => setActiveTab('bank')}
           />
         )}
@@ -184,6 +185,7 @@ export function App() {
       <QuestionModal
         isOpen={isModalOpen}
         questionToEdit={editingQuestion}
+        config={llmConfig}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveQuestion}
       />
