@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { X, Sparkles, Plus, Trash2, Eye, Code, HelpCircle, Upload, CheckCircle2, AlertCircle } from 'lucide-react'
 import type { Question, Category, Difficulty, QuestionType, OptionItem, LLMConfig } from '../types'
 import { CATEGORY_LABELS, DIFFICULTY_LABELS } from '../utils/iqCalculator'
@@ -44,28 +44,25 @@ export const QuestionModal: React.FC<QuestionModalProps> = ({
   const isEditing = Boolean(questionToEdit)
 
   const [title, setTitle] = useState(questionToEdit?.title || '')
-  const [description, setDescription] = useState(
-    questionToEdit?.description || '已知方程 $$f(x) = x^2 - 4x + 3$$，求最小极值点：'
-  )
+  const [description, setDescription] = useState(questionToEdit?.description || '')
   const [category, setCategory] = useState<Category>(questionToEdit?.category || 'math')
   const [difficulty, setDifficulty] = useState<Difficulty>(questionToEdit?.difficulty || 'medium')
   const [type, setType] = useState<QuestionType>(questionToEdit?.type || 'single-choice')
   const [options, setOptions] = useState<OptionItem[]>(
     questionToEdit?.options || [
-      { id: 'opt-A', label: 'A', text: '$x = 1$' },
-      { id: 'opt-B', label: 'B', text: '$x = 2$' },
-      { id: 'opt-C', label: 'C', text: '$x = 3$' },
-      { id: 'opt-D', label: 'D', text: '$x = 4$' },
+      { id: 'opt-A', label: 'A', text: '' },
+      { id: 'opt-B', label: 'B', text: '' },
+      { id: 'opt-C', label: 'C', text: '' },
+      { id: 'opt-D', label: 'D', text: '' },
     ]
   )
   const [answer, setAnswer] = useState<string | string[]>(
-    questionToEdit?.answer || 'B'
+    questionToEdit?.answer ?? ''
   )
   const [explanation, setExplanation] = useState(
-    questionToEdit?.explanation ||
-      '求导数：\n$$f\'(x) = 2x - 4 = 0 \\implies x = 2$$\n二阶导数 $f\'\'(x) = 2 > 0$，故在 $x = 2$ 处取得极小值。正确答案为 **B**。'
+    questionToEdit?.explanation || ''
   )
-  const [tagsStr, setTagsStr] = useState(questionToEdit?.tags?.join(', ') || '数学, 导数, 极值')
+  const [tagsStr, setTagsStr] = useState(questionToEdit?.tags?.join(', ') || '')
   const [previewTab, setPreviewTab] = useState<'split' | 'edit' | 'preview'>('split')
 
   // AI 答案识别与排版助手
@@ -75,6 +72,54 @@ export const QuestionModal: React.FC<QuestionModalProps> = ({
   const [aiScratchImage, setAiScratchImage] = useState<string | null>(null)
   const [isPolishing, setIsPolishing] = useState(false)
   const [polishMsg, setPolishMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+
+  // 关键：当待编辑题目变化或弹窗重新打开时，全面同步更新表单所有字段
+  useEffect(() => {
+    if (questionToEdit) {
+      setTitle(questionToEdit.title || '')
+      setDescription(questionToEdit.description || '')
+      setCategory(questionToEdit.category || 'math')
+      setDifficulty(questionToEdit.difficulty || 'medium')
+      setType(questionToEdit.type || 'single-choice')
+      setOptions(
+        questionToEdit.options && questionToEdit.options.length > 0
+          ? questionToEdit.options
+          : [
+              { id: 'opt-A', label: 'A', text: '' },
+              { id: 'opt-B', label: 'B', text: '' },
+              { id: 'opt-C', label: 'C', text: '' },
+              { id: 'opt-D', label: 'D', text: '' },
+            ]
+      )
+      setAnswer(questionToEdit.answer ?? '')
+      setExplanation(questionToEdit.explanation || '')
+      setTagsStr(questionToEdit.tags?.join(', ') || '')
+      const isPending = questionToEdit.answer === '待补充答案' || !questionToEdit.answer
+      setShowAiHelper(isPending)
+      setAiDraftNotes('')
+      setAiScratchImage(null)
+      setPolishMsg(null)
+    } else {
+      setTitle('')
+      setDescription('')
+      setCategory('math')
+      setDifficulty('medium')
+      setType('single-choice')
+      setOptions([
+        { id: 'opt-A', label: 'A', text: '' },
+        { id: 'opt-B', label: 'B', text: '' },
+        { id: 'opt-C', label: 'C', text: '' },
+        { id: 'opt-D', label: 'D', text: '' },
+      ])
+      setAnswer('')
+      setExplanation('')
+      setTagsStr('')
+      setShowAiHelper(false)
+      setAiDraftNotes('')
+      setAiScratchImage(null)
+      setPolishMsg(null)
+    }
+  }, [questionToEdit, isOpen])
 
   const handlePasteScratchImage = (e: React.ClipboardEvent) => {
     const items = e.clipboardData?.items

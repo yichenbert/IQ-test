@@ -41,13 +41,15 @@ export function App() {
   // Question CRUD handlers
   const handleSaveQuestion = (q: Question) => {
     let updated: Question[]
-    if (editingQuestion) {
+    const exists = questions.some(item => item.id === q.id)
+    if (exists || editingQuestion) {
       updated = questions.map(item => (item.id === q.id ? q : item))
     } else {
       updated = [q, ...questions]
     }
     setQuestions(updated)
     saveQuestions(updated)
+    setEditingQuestion(null)
   }
 
   const handleDeleteQuestion = (id: string) => {
@@ -182,13 +184,19 @@ export function App() {
       </main>
 
       {/* Add / Edit Question Modal */}
-      <QuestionModal
-        isOpen={isModalOpen}
-        questionToEdit={editingQuestion}
-        config={llmConfig}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSaveQuestion}
-      />
+      {isModalOpen && (
+        <QuestionModal
+          key={editingQuestion ? editingQuestion.id : 'new-modal'}
+          isOpen={isModalOpen}
+          questionToEdit={editingQuestion}
+          config={llmConfig}
+          onClose={() => {
+            setIsModalOpen(false)
+            setEditingQuestion(null)
+          }}
+          onSave={handleSaveQuestion}
+        />
+      )}
 
       {/* Footer */}
       <footer className="border-t border-slate-900 bg-slate-950/40 py-6 text-center text-xs text-slate-500">
