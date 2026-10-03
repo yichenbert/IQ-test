@@ -1,0 +1,492 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+/* Base Typography & Defaults */
+:root {
+  --font-serif-claude: "Newsreader", "Charter", "Iowan Old Style", "Georgia", "Cambria", "Times New Roman", serif;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(140, 130, 120, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(140, 130, 120, 0.5);
+}
+
+/* KaTeX Global Tweaks - Perfectly transparent background matching surrounding surface */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.35rem 0;
+  margin: 0.6rem 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.katex {
+  font-size: 1.06em;
+  background: transparent !important;
+}
+
+/* =========================================================================
+   1. CLAUDE 羊皮纸风格 (Parchment Theme - Claude Warm Terracotta)
+   ========================================================================= */
+[data-theme="parchment"] {
+  color-scheme: light;
+  background-color: #FAF7F2;
+  color: #2D2A26;
+}
+
+[data-theme="parchment"] body {
+  background-color: #FAF7F2;
+  color: #2D2A26;
+}
+
+/* App Background Container */
+[data-theme="parchment"] .bg-\[\#0b0f19\] {
+  background-color: #FAF7F2 !important;
+  color: #2D2A26 !important;
+}
+
+/* Headings with literary Claude serif */
+[data-theme="parchment"] h1,
+[data-theme="parchment"] h2,
+[data-theme="parchment"] h3,
+[data-theme="parchment"] h4 {
+  font-family: var(--font-serif-claude) !important;
+  letter-spacing: -0.015em;
+  color: #1A1918 !important;
+}
+
+/* Cards & Surface Containers (Warm Paper) */
+[data-theme="parchment"] .bg-slate-900,
+[data-theme="parchment"] .bg-slate-900\/40,
+[data-theme="parchment"] .bg-slate-900\/50,
+[data-theme="parchment"] .bg-slate-900\/60,
+[data-theme="parchment"] .bg-slate-900\/70,
+[data-theme="parchment"] .bg-slate-900\/80 {
+  background-color: #FFFFFF !important;
+  border-color: #E8E2D7 !important;
+  color: #2D2A26 !important;
+  box-shadow: 0 1px 3px rgba(60, 48, 36, 0.05), 0 6px 16px -2px rgba(60, 48, 36, 0.04) !important;
+}
+
+[data-theme="parchment"] .hover\:bg-slate-900\/80:hover {
+  background-color: #FAF8F5 !important;
+  border-color: #DDD6CB !important;
+}
+
+/* Inner Panels / Elevated Sub-cards */
+[data-theme="parchment"] .bg-slate-950,
+[data-theme="parchment"] .bg-slate-950\/40,
+[data-theme="parchment"] .bg-slate-950\/60,
+[data-theme="parchment"] .bg-slate-950\/70,
+[data-theme="parchment"] .bg-slate-950\/80,
+[data-theme="parchment"] .bg-slate-950\/90 {
+  background-color: #F6F2EB !important;
+  border-color: #E6DFD4 !important;
+  color: #2D2A26 !important;
+}
+
+/* Borders */
+[data-theme="parchment"] .border-slate-800,
+[data-theme="parchment"] .border-slate-800\/60,
+[data-theme="parchment"] .border-slate-800\/80,
+[data-theme="parchment"] .border-slate-900 {
+  border-color: #E8E2D7 !important;
+}
+[data-theme="parchment"] .border-slate-700,
+[data-theme="parchment"] .border-slate-700\/60,
+[data-theme="parchment"] .border-slate-700\/80 {
+  border-color: #DDD6CB !important;
+}
+
+/* Text Hierarchy */
+[data-theme="parchment"] .text-white {
+  color: #1A1918 !important;
+}
+[data-theme="parchment"] .text-slate-200,
+[data-theme="parchment"] .text-slate-300 {
+  color: #383531 !important;
+}
+[data-theme="parchment"] .text-slate-400,
+[data-theme="parchment"] .text-slate-500 {
+  color: #736C63 !important;
+}
+[data-theme="parchment"] .text-slate-600 {
+  color: #968F84 !important;
+}
+
+/* Claude Terracotta Accent Buttons */
+[data-theme="parchment"] .bg-indigo-600 {
+  background-color: #D97757 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(217, 119, 87, 0.25) !important;
+}
+[data-theme="parchment"] .bg-indigo-600:hover,
+[data-theme="parchment"] .hover\:bg-indigo-500:hover {
+  background-color: #C06446 !important;
+}
+[data-theme="parchment"] .bg-indigo-500\/10,
+[data-theme="parchment"] .bg-indigo-600\/10 {
+  background-color: rgba(217, 119, 87, 0.1) !important;
+}
+[data-theme="parchment"] .text-indigo-400,
+[data-theme="parchment"] .text-indigo-300 {
+  color: #C06446 !important;
+}
+[data-theme="parchment"] .border-indigo-500,
+[data-theme="parchment"] .border-indigo-500\/20,
+[data-theme="parchment"] .border-indigo-500\/30 {
+  border-color: rgba(217, 119, 87, 0.35) !important;
+}
+
+/* Secondary Button styles */
+[data-theme="parchment"] .bg-slate-800 {
+  background-color: #F1ECE3 !important;
+  color: #383531 !important;
+  border-color: #E2DBD0 !important;
+}
+[data-theme="parchment"] .bg-slate-800:hover,
+[data-theme="parchment"] .hover\:bg-slate-700:hover,
+[data-theme="parchment"] .hover\:bg-slate-800:hover {
+  background-color: #EAE3D6 !important;
+  color: #1A1918 !important;
+}
+
+/* Form inputs & Textareas */
+[data-theme="parchment"] input,
+[data-theme="parchment"] textarea,
+[data-theme="parchment"] select {
+  background-color: #FAF8F5 !important;
+  border-color: #DCD4C7 !important;
+  color: #1F1E1D !important;
+}
+[data-theme="parchment"] input:focus,
+[data-theme="parchment"] textarea:focus,
+[data-theme="parchment"] select:focus {
+  border-color: #D97757 !important;
+  background-color: #FFFFFF !important;
+  box-shadow: 0 0 0 3px rgba(217, 119, 87, 0.15) !important;
+}
+[data-theme="parchment"] input::placeholder,
+[data-theme="parchment"] textarea::placeholder {
+  color: #9B9489 !important;
+}
+
+/* Header & Navigation */
+[data-theme="parchment"] header {
+  background-color: rgba(250, 247, 242, 0.88) !important;
+  border-bottom-color: #E8E2D7 !important;
+  backdrop-filter: blur(14px) !important;
+}
+[data-theme="parchment"] footer {
+  background-color: #F4EFE9 !important;
+  border-top-color: #E8E2D7 !important;
+  color: #736C63 !important;
+}
+
+/* KaTeX in Parchment Mode (Transparent Background, Natural Ink on Warm Paper) */
+[data-theme="parchment"] .katex {
+  color: #1F1E1D !important;
+  background: transparent !important;
+}
+[data-theme="parchment"] .katex-display {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #1F1E1D !important;
+  padding: 0.35rem 0 !important;
+}
+
+/* Solved / Explanation container (Warm Paper Ivory, never black/dark) */
+[data-theme="parchment"] .bg-slate-950\/90,
+[data-theme="parchment"] .bg-emerald-950\/20,
+[data-theme="parchment"] .bg-emerald-950\/30,
+[data-theme="parchment"] .bg-emerald-950\/80,
+[data-theme="parchment"] .bg-emerald-950\/90 {
+  background-color: #F8F5EE !important;
+  border-color: #E6DFD4 !important;
+  color: #2D2A26 !important;
+}
+[data-theme="parchment"] .text-emerald-400,
+[data-theme="parchment"] .text-emerald-300,
+[data-theme="parchment"] .text-emerald-200 {
+  color: #1D6B30 !important;
+}
+[data-theme="parchment"] .bg-emerald-500\/20 {
+  background-color: rgba(34, 139, 34, 0.12) !important;
+}
+[data-theme="parchment"] .border-emerald-500\/30,
+[data-theme="parchment"] .border-emerald-900\/40,
+[data-theme="parchment"] .border-emerald-950\/60 {
+  border-color: rgba(34, 139, 34, 0.3) !important;
+}
+
+/* Free-response Purple accents */
+[data-theme="parchment"] .bg-purple-950\/20,
+[data-theme="parchment"] .bg-purple-950\/60,
+[data-theme="parchment"] .bg-purple-950\/70,
+[data-theme="parchment"] .bg-purple-950\/80 {
+  background-color: #FAF4F8 !important;
+  border-color: #EBDCE8 !important;
+  color: #4A1D45 !important;
+}
+[data-theme="parchment"] .text-purple-400,
+[data-theme="parchment"] .text-purple-300 {
+  color: #8C337F !important;
+}
+[data-theme="parchment"] .bg-purple-500\/20,
+[data-theme="parchment"] .bg-purple-500\/10 {
+  background-color: rgba(140, 51, 127, 0.1) !important;
+}
+[data-theme="parchment"] .border-purple-800\/40,
+[data-theme="parchment"] .border-purple-800\/50,
+[data-theme="parchment"] .border-purple-800\/60 {
+  border-color: rgba(140, 51, 127, 0.25) !important;
+}
+
+/* Theme Switcher Button & Dropdown in Parchment */
+[data-theme="parchment"] .theme-switcher-btn {
+  background-color: #F2ECE2 !important;
+  border-color: #E0D8CB !important;
+  color: #2D2A26 !important;
+}
+[data-theme="parchment"] .theme-switcher-btn:hover {
+  background-color: #EAE2D4 !important;
+}
+[data-theme="parchment"] .theme-dropdown-panel {
+  background-color: #FFFFFF !important;
+  border-color: #E5DFD4 !important;
+  color: #2D2A26 !important;
+}
+[data-theme="parchment"] .theme-dropdown-label {
+  color: #8C8478 !important;
+  border-color: #EFE9DF !important;
+}
+[data-theme="parchment"] .theme-option-hover:hover {
+  background-color: #FAF6F0 !important;
+}
+[data-theme="parchment"] .theme-option-selected {
+  background-color: #F8F1E9 !important;
+  border: 1px solid #E6D8C8 !important;
+  color: #1F1E1D !important;
+}
+
+/* =========================================================================
+   2. 墨香夜读风格 (Midnight Scholar - Warm Charcoal & Terracotta)
+   ========================================================================= */
+[data-theme="midnight-parchment"] {
+  color-scheme: dark;
+  background-color: #181716;
+  color: #ECE7DF;
+}
+
+[data-theme="midnight-parchment"] body,
+[data-theme="midnight-parchment"] .bg-\[\#0b0f19\] {
+  background-color: #181716 !important;
+  color: #ECE7DF !important;
+}
+
+[data-theme="midnight-parchment"] h1,
+[data-theme="midnight-parchment"] h2,
+[data-theme="midnight-parchment"] h3,
+[data-theme="midnight-parchment"] h4 {
+  font-family: var(--font-serif-claude) !important;
+  letter-spacing: -0.015em;
+  color: #FAF7F2 !important;
+}
+
+[data-theme="midnight-parchment"] .bg-slate-900,
+[data-theme="midnight-parchment"] .bg-slate-900\/50,
+[data-theme="midnight-parchment"] .bg-slate-900\/60,
+[data-theme="midnight-parchment"] .bg-slate-900\/70,
+[data-theme="midnight-parchment"] .bg-slate-900\/80 {
+  background-color: #242220 !important;
+  border-color: #383430 !important;
+  color: #ECE7DF !important;
+}
+
+[data-theme="midnight-parchment"] .bg-slate-950,
+[data-theme="midnight-parchment"] .bg-slate-950\/60,
+[data-theme="midnight-parchment"] .bg-slate-950\/70,
+[data-theme="midnight-parchment"] .bg-slate-950\/80 {
+  background-color: #1D1C1A !important;
+  border-color: #332F2B !important;
+}
+
+[data-theme="midnight-parchment"] .border-slate-800,
+[data-theme="midnight-parchment"] .border-slate-800\/60 {
+  border-color: #383430 !important;
+}
+
+[data-theme="midnight-parchment"] .bg-indigo-600 {
+  background-color: #D97757 !important;
+  color: #FFFFFF !important;
+}
+[data-theme="midnight-parchment"] .bg-indigo-600:hover {
+  background-color: #C06446 !important;
+}
+[data-theme="midnight-parchment"] .text-indigo-400,
+[data-theme="midnight-parchment"] .text-indigo-300 {
+  color: #D97757 !important;
+}
+
+[data-theme="midnight-parchment"] header {
+  background-color: rgba(24, 23, 22, 0.88) !important;
+  border-bottom-color: #332F2B !important;
+}
+
+[data-theme="midnight-parchment"] .theme-switcher-btn {
+  background-color: #242220 !important;
+  border-color: #383430 !important;
+  color: #ECE7DF !important;
+}
+[data-theme="midnight-parchment"] .theme-dropdown-panel {
+  background-color: #242220 !important;
+  border-color: #383430 !important;
+  color: #ECE7DF !important;
+}
+[data-theme="midnight-parchment"] .theme-option-hover:hover {
+  background-color: #2D2A27 !important;
+}
+[data-theme="midnight-parchment"] .theme-option-selected {
+  background-color: #36322E !important;
+}
+
+/* =========================================================================
+   3. 博雅白卷风格 (Academic Paper - Clean Oxford Blue)
+   ========================================================================= */
+[data-theme="academic-paper"] {
+  color-scheme: light;
+  background-color: #F8FAFC;
+  color: #0F172A;
+}
+
+[data-theme="academic-paper"] body,
+[data-theme="academic-paper"] .bg-\[\#0b0f19\] {
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+[data-theme="academic-paper"] .bg-slate-900,
+[data-theme="academic-paper"] .bg-slate-900\/50,
+[data-theme="academic-paper"] .bg-slate-900\/60,
+[data-theme="academic-paper"] .bg-slate-900\/70,
+[data-theme="academic-paper"] .bg-slate-900\/80 {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="academic-paper"] .bg-slate-950,
+[data-theme="academic-paper"] .bg-slate-950\/60,
+[data-theme="academic-paper"] .bg-slate-950\/70,
+[data-theme="academic-paper"] .bg-slate-950\/80 {
+  background-color: #F1F5F9 !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+[data-theme="academic-paper"] .border-slate-800,
+[data-theme="academic-paper"] .border-slate-800\/60 {
+  border-color: #E2E8F0 !important;
+}
+
+[data-theme="academic-paper"] .text-white {
+  color: #0F172A !important;
+}
+[data-theme="academic-paper"] .text-slate-200,
+[data-theme="academic-paper"] .text-slate-300 {
+  color: #1E293B !important;
+}
+[data-theme="academic-paper"] .text-slate-400,
+[data-theme="academic-paper"] .text-slate-500 {
+  color: #64748B !important;
+}
+
+[data-theme="academic-paper"] .bg-indigo-600 {
+  background-color: #2563EB !important;
+  color: #FFFFFF !important;
+}
+[data-theme="academic-paper"] .bg-indigo-600:hover {
+  background-color: #1D4ED8 !important;
+}
+[data-theme="academic-paper"] .text-indigo-400,
+[data-theme="academic-paper"] .text-indigo-300 {
+  color: #2563EB !important;
+}
+
+[data-theme="academic-paper"] header {
+  background-color: rgba(248, 250, 252, 0.9) !important;
+  border-bottom-color: #E2E8F0 !important;
+}
+
+[data-theme="academic-paper"] input,
+[data-theme="academic-paper"] textarea,
+[data-theme="academic-paper"] select {
+  background-color: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  color: #0F172A !important;
+}
+[data-theme="academic-paper"] input:focus,
+[data-theme="academic-paper"] textarea:focus,
+[data-theme="academic-paper"] select:focus {
+  border-color: #2563EB !important;
+}
+
+[data-theme="academic-paper"] .theme-switcher-btn {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+[data-theme="academic-paper"] .theme-dropdown-panel {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+[data-theme="academic-paper"] .theme-option-hover:hover {
+  background-color: #F1F5F9 !important;
+}
+[data-theme="academic-paper"] .theme-option-selected {
+  background-color: #EFF6FF !important;
+  border: 1px solid #BFDBFE !important;
+}
+
+/* =========================================================================
+   4. 深空矩阵风格 (Dark Matrix - Cyberpunk Slate)
+   ========================================================================= */
+[data-theme="dark-matrix"] .theme-switcher-btn {
+  background-color: #0f172a;
+  border-color: #1e293b;
+  color: #f1f5f9;
+}
+[data-theme="dark-matrix"] .theme-dropdown-panel {
+  background-color: #0f172a;
+  border-color: #1e293b;
+  color: #f1f5f9;
+}
+[data-theme="dark-matrix"] .theme-option-hover:hover {
+  background-color: #1e293b;
+}
+[data-theme="dark-matrix"] .theme-option-selected {
+  background-color: rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+}
