@@ -161,17 +161,18 @@ export const TestArena: React.FC<TestArenaProps> = ({
           ans.every(a => q.answer.includes(a))
         : checkAnswerCorrectness(String(ans), q.answer)
 
-      const weight = DIFFICULTY_LABELS[q.difficulty].weight
+      const weight = (DIFFICULTY_LABELS[q.difficulty] || DIFFICULTY_LABELS.medium).weight
       totalWeightScore += weight
       if (isCorrect) {
         correctCount++
         earnedWeightScore += weight
       }
 
-      if (catStats[q.category]) {
-        catStats[q.category].total += 1
-        if (isCorrect) catStats[q.category].correct += 1
+      if (!catStats[q.category]) {
+        catStats[q.category] = { total: 0, correct: 0 }
       }
+      catStats[q.category].total += 1
+      if (isCorrect) catStats[q.category].correct += 1
 
       records.push({
         questionId: q.id,

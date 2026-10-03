@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { X, Sparkles, Plus, Trash2, Eye, Code, HelpCircle, Upload, CheckCircle2, AlertCircle } from 'lucide-react'
 import type { Question, Category, Difficulty, QuestionType, OptionItem, LLMConfig } from '../types'
-import { CATEGORY_LABELS, DIFFICULTY_LABELS } from '../utils/iqCalculator'
+import { CATEGORY_LABELS, DIFFICULTY_LABELS, getCategoryInfo } from '../utils/iqCalculator'
 import { MathRenderer } from './MathRenderer'
 import { polishAnswerAndProofWithAI } from '../utils/aiVisionImporter'
 
@@ -587,7 +587,7 @@ export const QuestionModal: React.FC<QuestionModalProps> = ({
                     </div>
 
                     <div className="space-y-2">
-                      {options.map((opt, idx) => (
+                      {(options || []).map((opt, idx) => (
                         <div key={opt.id} className="flex items-center gap-2">
                           {type === 'single-choice' ? (
                             <input
@@ -621,7 +621,7 @@ export const QuestionModal: React.FC<QuestionModalProps> = ({
                             className="flex-1 px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white font-mono focus:outline-none focus:border-indigo-500"
                           />
 
-                          {options.length > 2 && (
+                          {(options?.length || 0) > 2 && (
                             <button
                               type="button"
                               onClick={() => handleRemoveOption(idx)}
@@ -696,12 +696,12 @@ export const QuestionModal: React.FC<QuestionModalProps> = ({
                 <div className="space-y-3">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="px-2 py-0.5 text-xs rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">
-                      {CATEGORY_LABELS[category].label}
+                      {getCategoryInfo(category).label}
                     </span>
                     <span
-                      className={`px-2 py-0.5 text-xs rounded-md border ${DIFFICULTY_LABELS[difficulty].badge}`}
+                      className={`px-2 py-0.5 text-xs rounded-md border ${(DIFFICULTY_LABELS[difficulty] || DIFFICULTY_LABELS.medium).badge}`}
                     >
-                      {DIFFICULTY_LABELS[difficulty].label}
+                      {(DIFFICULTY_LABELS[difficulty] || DIFFICULTY_LABELS.medium).label}
                     </span>
                     <span className="px-2 py-0.5 text-xs rounded-md bg-slate-800 text-slate-400">
                       {type === 'single-choice'
@@ -722,7 +722,7 @@ export const QuestionModal: React.FC<QuestionModalProps> = ({
                     <MathRenderer content={description} />
                   </div>
 
-                  {type !== 'fill-blank' && type !== 'free-response' && options.length > 0 && (
+                  {type !== 'fill-blank' && type !== 'free-response' && Array.isArray(options) && options.length > 0 && (
                     <div className="pt-3 space-y-2">
                       <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
                         选项预览

@@ -4,6 +4,7 @@
 /* Base Typography & Defaults */
 :root {
   --font-serif-claude: "Newsreader", "Charter", "Iowan Old Style", "Georgia", "Cambria", "Times New Roman", serif;
+  --page-bg: #0B0F19;
 }
 
 body {
@@ -11,6 +12,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #0B0F19;
 }
 
 /* Custom scrollbars */
@@ -45,7 +47,62 @@ body {
 }
 
 /* =========================================================================
+   DEFAULT / 深空矩阵 (Dark Matrix Theme)
+   方框的背景颜色与页面的背景颜色一致 (#0B0F19)
+   ========================================================================= */
+.bg-\[\#0b0f19\] {
+  background-color: #0B0F19 !important;
+}
+
+/* 所有卡片、容器方框背景与页面背景完全一致 */
+.bg-slate-900,
+.bg-slate-900\/20,
+.bg-slate-900\/30,
+.bg-slate-900\/40,
+.bg-slate-900\/50,
+.bg-slate-900\/60,
+.bg-slate-900\/70,
+.bg-slate-900\/80,
+.bg-slate-900\/90,
+.bg-slate-950,
+.bg-slate-950\/20,
+.bg-slate-950\/30,
+.bg-slate-950\/40,
+.bg-slate-950\/50,
+.bg-slate-950\/60,
+.bg-slate-950\/70,
+.bg-slate-950\/80,
+.bg-slate-950\/90 {
+  background-color: #0B0F19 !important;
+}
+
+/* 表单输入框、下拉框背景与页面一致 */
+input,
+textarea,
+select {
+  background-color: #0B0F19 !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  background-color: #0B0F19 !important;
+}
+
+header {
+  background-color: rgba(11, 15, 25, 0.9) !important;
+  border-bottom-color: #1e293b !important;
+  backdrop-filter: blur(14px) !important;
+}
+
+footer {
+  background-color: #0B0F19 !important;
+  border-top-color: #1e293b !important;
+}
+
+/* =========================================================================
    1. CLAUDE 羊皮纸风格 (Parchment Theme - Claude Warm Terracotta)
+   方框的背景颜色与页面的背景颜色一致 (#FAF7F2)
    ========================================================================= */
 [data-theme="parchment"] {
   color-scheme: light;
@@ -53,12 +110,7 @@ body {
   color: #2D2A26;
 }
 
-[data-theme="parchment"] body {
-  background-color: #FAF7F2;
-  color: #2D2A26;
-}
-
-/* App Background Container */
+[data-theme="parchment"] body,
 [data-theme="parchment"] .bg-\[\#0b0f19\] {
   background-color: #FAF7F2 !important;
   color: #2D2A26 !important;
@@ -74,34 +126,35 @@ body {
   color: #1A1918 !important;
 }
 
-/* Cards & Surface Containers (Warm Paper) */
+/* 所有卡片与方框背景统一为页面纸张底色 #FAF7F2 */
 [data-theme="parchment"] .bg-slate-900,
+[data-theme="parchment"] .bg-slate-900\/20,
+[data-theme="parchment"] .bg-slate-900\/30,
 [data-theme="parchment"] .bg-slate-900\/40,
 [data-theme="parchment"] .bg-slate-900\/50,
 [data-theme="parchment"] .bg-slate-900\/60,
 [data-theme="parchment"] .bg-slate-900\/70,
-[data-theme="parchment"] .bg-slate-900\/80 {
-  background-color: #FFFFFF !important;
-  border-color: #E8E2D7 !important;
-  color: #2D2A26 !important;
-  box-shadow: 0 1px 3px rgba(60, 48, 36, 0.05), 0 6px 16px -2px rgba(60, 48, 36, 0.04) !important;
-}
-
-[data-theme="parchment"] .hover\:bg-slate-900\/80:hover {
-  background-color: #FAF8F5 !important;
-  border-color: #DDD6CB !important;
-}
-
-/* Inner Panels / Elevated Sub-cards */
+[data-theme="parchment"] .bg-slate-900\/80,
+[data-theme="parchment"] .bg-slate-900\/90,
 [data-theme="parchment"] .bg-slate-950,
+[data-theme="parchment"] .bg-slate-950\/20,
+[data-theme="parchment"] .bg-slate-950\/30,
 [data-theme="parchment"] .bg-slate-950\/40,
+[data-theme="parchment"] .bg-slate-950\/50,
 [data-theme="parchment"] .bg-slate-950\/60,
 [data-theme="parchment"] .bg-slate-950\/70,
 [data-theme="parchment"] .bg-slate-950\/80,
 [data-theme="parchment"] .bg-slate-950\/90 {
-  background-color: #F6F2EB !important;
-  border-color: #E6DFD4 !important;
+  background-color: #FAF7F2 !important;
+  border-color: #E8E2D7 !important;
   color: #2D2A26 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="parchment"] .hover\:bg-slate-900\/80:hover,
+[data-theme="parchment"] .hover\:bg-slate-800:hover {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+  border-color: #DDD6CB !important;
 }
 
 /* Borders */
@@ -145,7 +198,7 @@ body {
 }
 [data-theme="parchment"] .bg-indigo-500\/10,
 [data-theme="parchment"] .bg-indigo-600\/10 {
-  background-color: rgba(217, 119, 87, 0.1) !important;
+  background-color: rgba(217, 119, 87, 0.08) !important;
 }
 [data-theme="parchment"] .text-indigo-400,
 [data-theme="parchment"] .text-indigo-300 {
@@ -159,14 +212,13 @@ body {
 
 /* Secondary Button styles */
 [data-theme="parchment"] .bg-slate-800 {
-  background-color: #F1ECE3 !important;
+  background-color: #FAF7F2 !important;
   color: #383531 !important;
-  border-color: #E2DBD0 !important;
+  border: 1px solid #E2DBD0 !important;
 }
 [data-theme="parchment"] .bg-slate-800:hover,
-[data-theme="parchment"] .hover\:bg-slate-700:hover,
-[data-theme="parchment"] .hover\:bg-slate-800:hover {
-  background-color: #EAE3D6 !important;
+[data-theme="parchment"] .hover\:bg-slate-700:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
   color: #1A1918 !important;
 }
 
@@ -174,7 +226,7 @@ body {
 [data-theme="parchment"] input,
 [data-theme="parchment"] textarea,
 [data-theme="parchment"] select {
-  background-color: #FAF8F5 !important;
+  background-color: #FAF7F2 !important;
   border-color: #DCD4C7 !important;
   color: #1F1E1D !important;
 }
@@ -182,8 +234,8 @@ body {
 [data-theme="parchment"] textarea:focus,
 [data-theme="parchment"] select:focus {
   border-color: #D97757 !important;
-  background-color: #FFFFFF !important;
-  box-shadow: 0 0 0 3px rgba(217, 119, 87, 0.15) !important;
+  background-color: #FAF7F2 !important;
+  box-shadow: 0 0 0 2px rgba(217, 119, 87, 0.15) !important;
 }
 [data-theme="parchment"] input::placeholder,
 [data-theme="parchment"] textarea::placeholder {
@@ -192,17 +244,17 @@ body {
 
 /* Header & Navigation */
 [data-theme="parchment"] header {
-  background-color: rgba(250, 247, 242, 0.88) !important;
+  background-color: rgba(250, 247, 242, 0.92) !important;
   border-bottom-color: #E8E2D7 !important;
   backdrop-filter: blur(14px) !important;
 }
 [data-theme="parchment"] footer {
-  background-color: #F4EFE9 !important;
+  background-color: #FAF7F2 !important;
   border-top-color: #E8E2D7 !important;
   color: #736C63 !important;
 }
 
-/* KaTeX in Parchment Mode (Transparent Background, Natural Ink on Warm Paper) */
+/* KaTeX in Parchment Mode */
 [data-theme="parchment"] .katex {
   color: #1F1E1D !important;
   background: transparent !important;
@@ -215,13 +267,13 @@ body {
   padding: 0.35rem 0 !important;
 }
 
-/* Solved / Explanation container (Warm Paper Ivory, never black/dark) */
+/* Solved / Explanation container */
 [data-theme="parchment"] .bg-slate-950\/90,
 [data-theme="parchment"] .bg-emerald-950\/20,
 [data-theme="parchment"] .bg-emerald-950\/30,
 [data-theme="parchment"] .bg-emerald-950\/80,
 [data-theme="parchment"] .bg-emerald-950\/90 {
-  background-color: #F8F5EE !important;
+  background-color: #FAF7F2 !important;
   border-color: #E6DFD4 !important;
   color: #2D2A26 !important;
 }
@@ -231,7 +283,7 @@ body {
   color: #1D6B30 !important;
 }
 [data-theme="parchment"] .bg-emerald-500\/20 {
-  background-color: rgba(34, 139, 34, 0.12) !important;
+  background-color: rgba(34, 139, 34, 0.08) !important;
 }
 [data-theme="parchment"] .border-emerald-500\/30,
 [data-theme="parchment"] .border-emerald-900\/40,
@@ -244,7 +296,7 @@ body {
 [data-theme="parchment"] .bg-purple-950\/60,
 [data-theme="parchment"] .bg-purple-950\/70,
 [data-theme="parchment"] .bg-purple-950\/80 {
-  background-color: #FAF4F8 !important;
+  background-color: #FAF7F2 !important;
   border-color: #EBDCE8 !important;
   color: #4A1D45 !important;
 }
@@ -254,7 +306,7 @@ body {
 }
 [data-theme="parchment"] .bg-purple-500\/20,
 [data-theme="parchment"] .bg-purple-500\/10 {
-  background-color: rgba(140, 51, 127, 0.1) !important;
+  background-color: rgba(140, 51, 127, 0.08) !important;
 }
 [data-theme="parchment"] .border-purple-800\/40,
 [data-theme="parchment"] .border-purple-800\/50,
@@ -264,15 +316,15 @@ body {
 
 /* Theme Switcher Button & Dropdown in Parchment */
 [data-theme="parchment"] .theme-switcher-btn {
-  background-color: #F2ECE2 !important;
+  background-color: #FAF7F2 !important;
   border-color: #E0D8CB !important;
   color: #2D2A26 !important;
 }
 [data-theme="parchment"] .theme-switcher-btn:hover {
-  background-color: #EAE2D4 !important;
+  background-color: rgba(0, 0, 0, 0.03) !important;
 }
 [data-theme="parchment"] .theme-dropdown-panel {
-  background-color: #FFFFFF !important;
+  background-color: #FAF7F2 !important;
   border-color: #E5DFD4 !important;
   color: #2D2A26 !important;
 }
@@ -281,16 +333,17 @@ body {
   border-color: #EFE9DF !important;
 }
 [data-theme="parchment"] .theme-option-hover:hover {
-  background-color: #FAF6F0 !important;
+  background-color: rgba(0, 0, 0, 0.03) !important;
 }
 [data-theme="parchment"] .theme-option-selected {
-  background-color: #F8F1E9 !important;
-  border: 1px solid #E6D8C8 !important;
+  background-color: #FAF7F2 !important;
+  border: 1px solid #D97757 !important;
   color: #1F1E1D !important;
 }
 
 /* =========================================================================
    2. 墨香夜读风格 (Midnight Scholar - Warm Charcoal & Terracotta)
+   方框的背景颜色与页面的背景颜色一致 (#181716)
    ========================================================================= */
 [data-theme="midnight-parchment"] {
   color-scheme: dark;
@@ -313,27 +366,50 @@ body {
   color: #FAF7F2 !important;
 }
 
+/* 所有卡片与方框背景统一为页面底色 #181716 */
 [data-theme="midnight-parchment"] .bg-slate-900,
+[data-theme="midnight-parchment"] .bg-slate-900\/20,
+[data-theme="midnight-parchment"] .bg-slate-900\/30,
+[data-theme="midnight-parchment"] .bg-slate-900\/40,
 [data-theme="midnight-parchment"] .bg-slate-900\/50,
 [data-theme="midnight-parchment"] .bg-slate-900\/60,
 [data-theme="midnight-parchment"] .bg-slate-900\/70,
-[data-theme="midnight-parchment"] .bg-slate-900\/80 {
-  background-color: #242220 !important;
+[data-theme="midnight-parchment"] .bg-slate-900\/80,
+[data-theme="midnight-parchment"] .bg-slate-900\/90,
+[data-theme="midnight-parchment"] .bg-slate-950,
+[data-theme="midnight-parchment"] .bg-slate-950\/20,
+[data-theme="midnight-parchment"] .bg-slate-950\/30,
+[data-theme="midnight-parchment"] .bg-slate-950\/40,
+[data-theme="midnight-parchment"] .bg-slate-950\/50,
+[data-theme="midnight-parchment"] .bg-slate-950\/60,
+[data-theme="midnight-parchment"] .bg-slate-950\/70,
+[data-theme="midnight-parchment"] .bg-slate-950\/80,
+[data-theme="midnight-parchment"] .bg-slate-950\/90 {
+  background-color: #181716 !important;
+  border-color: #332F2B !important;
+  color: #ECE7DF !important;
+  box-shadow: none !important;
+}
+
+[data-theme="midnight-parchment"] .border-slate-800,
+[data-theme="midnight-parchment"] .border-slate-800\/60,
+[data-theme="midnight-parchment"] .border-slate-800\/80 {
+  border-color: #332F2B !important;
+}
+
+[data-theme="midnight-parchment"] input,
+[data-theme="midnight-parchment"] textarea,
+[data-theme="midnight-parchment"] select {
+  background-color: #181716 !important;
   border-color: #383430 !important;
   color: #ECE7DF !important;
 }
 
-[data-theme="midnight-parchment"] .bg-slate-950,
-[data-theme="midnight-parchment"] .bg-slate-950\/60,
-[data-theme="midnight-parchment"] .bg-slate-950\/70,
-[data-theme="midnight-parchment"] .bg-slate-950\/80 {
-  background-color: #1D1C1A !important;
-  border-color: #332F2B !important;
-}
-
-[data-theme="midnight-parchment"] .border-slate-800,
-[data-theme="midnight-parchment"] .border-slate-800\/60 {
-  border-color: #383430 !important;
+[data-theme="midnight-parchment"] input:focus,
+[data-theme="midnight-parchment"] textarea:focus,
+[data-theme="midnight-parchment"] select:focus {
+  background-color: #181716 !important;
+  border-color: #D97757 !important;
 }
 
 [data-theme="midnight-parchment"] .bg-indigo-600 {
@@ -349,29 +425,33 @@ body {
 }
 
 [data-theme="midnight-parchment"] header {
-  background-color: rgba(24, 23, 22, 0.88) !important;
+  background-color: rgba(24, 23, 22, 0.92) !important;
   border-bottom-color: #332F2B !important;
+  backdrop-filter: blur(14px) !important;
 }
 
-[data-theme="midnight-parchment"] .theme-switcher-btn {
-  background-color: #242220 !important;
-  border-color: #383430 !important;
-  color: #ECE7DF !important;
+[data-theme="midnight-parchment"] footer {
+  background-color: #181716 !important;
+  border-top-color: #332F2B !important;
 }
+
+[data-theme="midnight-parchment"] .theme-switcher-btn,
 [data-theme="midnight-parchment"] .theme-dropdown-panel {
-  background-color: #242220 !important;
-  border-color: #383430 !important;
+  background-color: #181716 !important;
+  border-color: #332F2B !important;
   color: #ECE7DF !important;
 }
 [data-theme="midnight-parchment"] .theme-option-hover:hover {
-  background-color: #2D2A27 !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
 }
 [data-theme="midnight-parchment"] .theme-option-selected {
-  background-color: #36322E !important;
+  background-color: #181716 !important;
+  border: 1px solid #D97757 !important;
 }
 
 /* =========================================================================
    3. 博雅白卷风格 (Academic Paper - Clean Oxford Blue)
+   方框的背景颜色与页面的背景颜色一致 (#F8FAFC)
    ========================================================================= */
 [data-theme="academic-paper"] {
   color-scheme: light;
@@ -385,28 +465,34 @@ body {
   color: #0F172A !important;
 }
 
+/* 所有卡片与方框背景统一为页面底色 #F8FAFC */
 [data-theme="academic-paper"] .bg-slate-900,
+[data-theme="academic-paper"] .bg-slate-900\/20,
+[data-theme="academic-paper"] .bg-slate-900\/30,
+[data-theme="academic-paper"] .bg-slate-900\/40,
 [data-theme="academic-paper"] .bg-slate-900\/50,
 [data-theme="academic-paper"] .bg-slate-900\/60,
 [data-theme="academic-paper"] .bg-slate-900\/70,
-[data-theme="academic-paper"] .bg-slate-900\/80 {
-  background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
-  color: #0F172A !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-}
-
+[data-theme="academic-paper"] .bg-slate-900\/80,
+[data-theme="academic-paper"] .bg-slate-900\/90,
 [data-theme="academic-paper"] .bg-slate-950,
+[data-theme="academic-paper"] .bg-slate-950\/20,
+[data-theme="academic-paper"] .bg-slate-950\/30,
+[data-theme="academic-paper"] .bg-slate-950\/40,
+[data-theme="academic-paper"] .bg-slate-950\/50,
 [data-theme="academic-paper"] .bg-slate-950\/60,
 [data-theme="academic-paper"] .bg-slate-950\/70,
-[data-theme="academic-paper"] .bg-slate-950\/80 {
-  background-color: #F1F5F9 !important;
+[data-theme="academic-paper"] .bg-slate-950\/80,
+[data-theme="academic-paper"] .bg-slate-950\/90 {
+  background-color: #F8FAFC !important;
   border-color: #E2E8F0 !important;
   color: #0F172A !important;
+  box-shadow: none !important;
 }
 
 [data-theme="academic-paper"] .border-slate-800,
-[data-theme="academic-paper"] .border-slate-800\/60 {
+[data-theme="academic-paper"] .border-slate-800\/60,
+[data-theme="academic-paper"] .border-slate-800\/80 {
   border-color: #E2E8F0 !important;
 }
 
@@ -435,58 +521,57 @@ body {
 }
 
 [data-theme="academic-paper"] header {
-  background-color: rgba(248, 250, 252, 0.9) !important;
+  background-color: rgba(248, 250, 252, 0.92) !important;
   border-bottom-color: #E2E8F0 !important;
+  backdrop-filter: blur(14px) !important;
+}
+
+[data-theme="academic-paper"] footer {
+  background-color: #F8FAFC !important;
+  border-top-color: #E2E8F0 !important;
 }
 
 [data-theme="academic-paper"] input,
 [data-theme="academic-paper"] textarea,
 [data-theme="academic-paper"] select {
-  background-color: #FFFFFF !important;
+  background-color: #F8FAFC !important;
   border-color: #CBD5E1 !important;
   color: #0F172A !important;
 }
 [data-theme="academic-paper"] input:focus,
 [data-theme="academic-paper"] textarea:focus,
 [data-theme="academic-paper"] select:focus {
+  background-color: #F8FAFC !important;
   border-color: #2563EB !important;
 }
 
-[data-theme="academic-paper"] .theme-switcher-btn {
-  background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
-  color: #0F172A !important;
-}
+[data-theme="academic-paper"] .theme-switcher-btn,
 [data-theme="academic-paper"] .theme-dropdown-panel {
-  background-color: #FFFFFF !important;
+  background-color: #F8FAFC !important;
   border-color: #E2E8F0 !important;
   color: #0F172A !important;
 }
 [data-theme="academic-paper"] .theme-option-hover:hover {
-  background-color: #F1F5F9 !important;
+  background-color: rgba(0, 0, 0, 0.03) !important;
 }
 [data-theme="academic-paper"] .theme-option-selected {
-  background-color: #EFF6FF !important;
-  border: 1px solid #BFDBFE !important;
+  background-color: #F8FAFC !important;
+  border: 1px solid #2563EB !important;
 }
 
 /* =========================================================================
-   4. 深空矩阵风格 (Dark Matrix - Cyberpunk Slate)
+   4. 深空矩阵风格 (Dark Matrix Switcher Overrides)
    ========================================================================= */
-[data-theme="dark-matrix"] .theme-switcher-btn {
-  background-color: #0f172a;
-  border-color: #1e293b;
-  color: #f1f5f9;
-}
+[data-theme="dark-matrix"] .theme-switcher-btn,
 [data-theme="dark-matrix"] .theme-dropdown-panel {
-  background-color: #0f172a;
-  border-color: #1e293b;
-  color: #f1f5f9;
+  background-color: #0B0F19 !important;
+  border-color: #1e293b !important;
+  color: #f1f5f9 !important;
 }
 [data-theme="dark-matrix"] .theme-option-hover:hover {
-  background-color: #1e293b;
+  background-color: #1e293b !important;
 }
 [data-theme="dark-matrix"] .theme-option-selected {
-  background-color: rgba(99, 102, 241, 0.2);
-  border: 1px solid rgba(99, 102, 241, 0.4);
+  background-color: #0B0F19 !important;
+  border: 1px solid rgba(99, 102, 241, 0.6) !important;
 }
