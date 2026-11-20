@@ -188,6 +188,23 @@ button:disabled {
   color: #C084FC;
 }
 
+.formula-chip-btn {
+  background-color: var(--bg-surface);
+  border-color: var(--border-default);
+  color: var(--text-secondary);
+}
+.formula-chip-btn:hover {
+  background-color: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--accent-primary);
+}
+
+.ai-helper-banner {
+  background-color: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  color: var(--text-secondary);
+}
+
 /* =========================================================================
    DEFAULT / 深空矩阵 (Dark Matrix Theme)
    ========================================================================= */
@@ -363,7 +380,8 @@ button:disabled {
 }
 
 /* Text Hierarchy */
-[data-theme="parchment"] .text-white {
+[data-theme="parchment"] .text-white,
+[data-theme="parchment"] .text-slate-100 {
   color: var(--text-primary) !important;
 }
 [data-theme="parchment"] .text-slate-200,
@@ -378,14 +396,26 @@ button:disabled {
   color: #8C8478 !important;
 }
 
-/* Preserve white text on solid accent / gradient buttons */
+/* Neutralize dark gradient cards in Parchment */
+[data-theme="parchment"] .from-slate-900,
+[data-theme="parchment"] .to-slate-900,
+[data-theme="parchment"] .from-indigo-950\/40,
+[data-theme="parchment"] .via-indigo-950\/40,
+[data-theme="parchment"] .via-purple-950\/30 {
+  background-image: none !important;
+  background-color: var(--bg-surface) !important;
+  color: var(--text-secondary) !important;
+}
+
+/* Preserve white text on solid accent / gradient buttons & icon badges (NOT bg-clip-text!) */
 [data-theme="parchment"] .bg-indigo-600,
 [data-theme="parchment"] .bg-purple-600,
 [data-theme="parchment"] .bg-amber-600,
 [data-theme="parchment"] .bg-rose-600,
 [data-theme="parchment"] .bg-emerald-600,
-[data-theme="parchment"] .bg-gradient-to-r,
-[data-theme="parchment"] .bg-gradient-to-tr {
+[data-theme="parchment"] button.bg-gradient-to-r,
+[data-theme="parchment"] div.bg-gradient-to-tr,
+[data-theme="parchment"] span.bg-gradient-to-tr {
   color: #FFFFFF !important;
 }
 [data-theme="parchment"] .bg-indigo-600 .text-white,
@@ -393,8 +423,9 @@ button:disabled {
 [data-theme="parchment"] .bg-amber-600 .text-white,
 [data-theme="parchment"] .bg-rose-600 .text-white,
 [data-theme="parchment"] .bg-emerald-600 .text-white,
-[data-theme="parchment"] .bg-gradient-to-r .text-white,
-[data-theme="parchment"] .bg-gradient-to-tr .text-white,
+[data-theme="parchment"] button.bg-gradient-to-r .text-white,
+[data-theme="parchment"] div.bg-gradient-to-tr .text-white,
+[data-theme="parchment"] span.bg-gradient-to-tr .text-white,
 [data-theme="parchment"] .brand-logo-box .text-white {
   color: #FFFFFF !important;
 }
@@ -409,27 +440,45 @@ button:disabled {
   background-color: var(--accent-hover) !important;
 }
 [data-theme="parchment"] .bg-indigo-500\/10,
+[data-theme="parchment"] .bg-indigo-500\/15,
+[data-theme="parchment"] .bg-indigo-500\/20,
 [data-theme="parchment"] .bg-indigo-600\/10,
-[data-theme="parchment"] .bg-indigo-600\/20 {
+[data-theme="parchment"] .bg-indigo-600\/20,
+[data-theme="parchment"] .bg-indigo-900\/40,
+[data-theme="parchment"] .bg-indigo-900\/60,
+[data-theme="parchment"] .bg-indigo-950\/10,
+[data-theme="parchment"] .bg-indigo-950\/40,
+[data-theme="parchment"] .bg-indigo-950\/60 {
   background-color: var(--accent-soft) !important;
 }
 [data-theme="parchment"] .text-indigo-400,
-[data-theme="parchment"] .text-indigo-300 {
+[data-theme="parchment"] .text-indigo-300,
+[data-theme="parchment"] .text-indigo-200 {
   color: var(--accent-hover) !important;
 }
 [data-theme="parchment"] .border-indigo-500,
 [data-theme="parchment"] .border-indigo-500\/20,
-[data-theme="parchment"] .border-indigo-500\/30 {
+[data-theme="parchment"] .border-indigo-500\/25,
+[data-theme="parchment"] .border-indigo-500\/30,
+[data-theme="parchment"] .border-indigo-500\/40,
+[data-theme="parchment"] .border-indigo-500\/50 {
   border-color: var(--accent-border) !important;
 }
 
 /* Secondary Buttons & Small Chips */
-[data-theme="parchment"] .bg-slate-800 {
+[data-theme="parchment"] .bg-slate-800,
+[data-theme="parchment"] .bg-slate-800\/80,
+[data-theme="parchment"] .bg-slate-800\/60,
+[data-theme="parchment"] .bg-slate-800\/50,
+[data-theme="parchment"] .bg-slate-800\/40,
+[data-theme="parchment"] .bg-slate-700,
+[data-theme="parchment"] .bg-slate-700\/80 {
   background-color: #EFEAE0 !important;
   color: var(--text-secondary) !important;
   border-color: var(--border-default) !important;
 }
 [data-theme="parchment"] .bg-slate-800:hover,
+[data-theme="parchment"] .bg-slate-800\/80:hover,
 [data-theme="parchment"] .hover\:bg-slate-700:hover,
 [data-theme="parchment"] .hover\:bg-slate-800:hover {
   background-color: #E6DFD2 !important;
@@ -482,6 +531,8 @@ button:disabled {
 }
 [data-theme="parchment"] .bg-emerald-950\/20,
 [data-theme="parchment"] .bg-emerald-950\/30,
+[data-theme="parchment"] .bg-emerald-950\/40,
+[data-theme="parchment"] .bg-emerald-950\/60,
 [data-theme="parchment"] .bg-emerald-950\/80,
 [data-theme="parchment"] .bg-emerald-950\/90,
 [data-theme="parchment"] .bg-emerald-500\/10,
@@ -490,18 +541,22 @@ button:disabled {
   background-color: rgba(21, 115, 71, 0.09) !important;
 }
 [data-theme="parchment"] .border-emerald-500\/30,
+[data-theme="parchment"] .border-emerald-500\/40,
 [data-theme="parchment"] .border-emerald-500\/50,
+[data-theme="parchment"] .border-emerald-900\/30,
 [data-theme="parchment"] .border-emerald-900\/40,
 [data-theme="parchment"] .border-emerald-950\/60 {
   border-color: rgba(21, 115, 71, 0.3) !important;
 }
 
 [data-theme="parchment"] .text-amber-400,
-[data-theme="parchment"] .text-amber-300 {
+[data-theme="parchment"] .text-amber-300,
+[data-theme="parchment"] .text-amber-200 {
   color: #B45309 !important;
 }
 [data-theme="parchment"] .bg-amber-500\/10,
-[data-theme="parchment"] .bg-amber-500\/20 {
+[data-theme="parchment"] .bg-amber-500\/20,
+[data-theme="parchment"] .bg-amber-950\/40 {
   background-color: rgba(180, 83, 9, 0.1) !important;
 }
 [data-theme="parchment"] .border-amber-500\/30,
@@ -510,11 +565,15 @@ button:disabled {
 }
 
 [data-theme="parchment"] .text-rose-400,
-[data-theme="parchment"] .text-rose-300 {
+[data-theme="parchment"] .text-rose-300,
+[data-theme="parchment"] .text-rose-200 {
   color: #BE123C !important;
 }
 [data-theme="parchment"] .bg-rose-500\/10,
-[data-theme="parchment"] .bg-rose-950\/50 {
+[data-theme="parchment"] .bg-rose-950\/10,
+[data-theme="parchment"] .bg-rose-950\/40,
+[data-theme="parchment"] .bg-rose-950\/50,
+[data-theme="parchment"] .bg-rose-950\/60 {
   background-color: rgba(190, 18, 60, 0.08) !important;
 }
 
@@ -818,12 +877,19 @@ button:disabled {
   color: var(--text-secondary) !important;
 }
 
-[data-theme="academic-paper"] .bg-slate-800 {
+[data-theme="academic-paper"] .bg-slate-800,
+[data-theme="academic-paper"] .bg-slate-800\/80,
+[data-theme="academic-paper"] .bg-slate-800\/60,
+[data-theme="academic-paper"] .bg-slate-800\/50,
+[data-theme="academic-paper"] .bg-slate-800\/40,
+[data-theme="academic-paper"] .bg-slate-700,
+[data-theme="academic-paper"] .bg-slate-700\/80 {
   background-color: #EFF3F8 !important;
   color: var(--text-secondary) !important;
   border-color: var(--border-subtle) !important;
 }
 [data-theme="academic-paper"] .bg-slate-800:hover,
+[data-theme="academic-paper"] .bg-slate-800\/80:hover,
 [data-theme="academic-paper"] .hover\:bg-slate-700:hover,
 [data-theme="academic-paper"] .hover\:bg-slate-800:hover {
   background-color: #E2E8F0 !important;
@@ -838,7 +904,8 @@ button:disabled {
   border-color: var(--border-subtle) !important;
 }
 
-[data-theme="academic-paper"] .text-white {
+[data-theme="academic-paper"] .text-white,
+[data-theme="academic-paper"] .text-slate-100 {
   color: var(--text-primary) !important;
 }
 [data-theme="academic-paper"] .text-slate-200,
@@ -850,14 +917,26 @@ button:disabled {
   color: var(--text-muted) !important;
 }
 
-/* Preserve white text on solid accent / gradient buttons */
+/* Neutralize dark gradient cards in Academic Paper */
+[data-theme="academic-paper"] .from-slate-900,
+[data-theme="academic-paper"] .to-slate-900,
+[data-theme="academic-paper"] .from-indigo-950\/40,
+[data-theme="academic-paper"] .via-indigo-950\/40,
+[data-theme="academic-paper"] .via-purple-950\/30 {
+  background-image: none !important;
+  background-color: var(--bg-surface) !important;
+  color: var(--text-secondary) !important;
+}
+
+/* Preserve white text on solid accent / gradient buttons & icon badges */
 [data-theme="academic-paper"] .bg-indigo-600,
 [data-theme="academic-paper"] .bg-purple-600,
 [data-theme="academic-paper"] .bg-amber-600,
 [data-theme="academic-paper"] .bg-rose-600,
 [data-theme="academic-paper"] .bg-emerald-600,
-[data-theme="academic-paper"] .bg-gradient-to-r,
-[data-theme="academic-paper"] .bg-gradient-to-tr {
+[data-theme="academic-paper"] button.bg-gradient-to-r,
+[data-theme="academic-paper"] div.bg-gradient-to-tr,
+[data-theme="academic-paper"] span.bg-gradient-to-tr {
   color: #FFFFFF !important;
 }
 [data-theme="academic-paper"] .bg-indigo-600 .text-white,
@@ -865,8 +944,9 @@ button:disabled {
 [data-theme="academic-paper"] .bg-amber-600 .text-white,
 [data-theme="academic-paper"] .bg-rose-600 .text-white,
 [data-theme="academic-paper"] .bg-emerald-600 .text-white,
-[data-theme="academic-paper"] .bg-gradient-to-r .text-white,
-[data-theme="academic-paper"] .bg-gradient-to-tr .text-white,
+[data-theme="academic-paper"] button.bg-gradient-to-r .text-white,
+[data-theme="academic-paper"] div.bg-gradient-to-tr .text-white,
+[data-theme="academic-paper"] span.bg-gradient-to-tr .text-white,
 [data-theme="academic-paper"] .brand-logo-box .text-white {
   color: #FFFFFF !important;
 }
@@ -878,16 +958,27 @@ button:disabled {
   background-color: var(--accent-hover) !important;
 }
 [data-theme="academic-paper"] .text-indigo-400,
-[data-theme="academic-paper"] .text-indigo-300 {
+[data-theme="academic-paper"] .text-indigo-300,
+[data-theme="academic-paper"] .text-indigo-200 {
   color: var(--accent-primary) !important;
 }
 [data-theme="academic-paper"] .bg-indigo-500\/10,
-[data-theme="academic-paper"] .bg-indigo-600\/20 {
+[data-theme="academic-paper"] .bg-indigo-500\/15,
+[data-theme="academic-paper"] .bg-indigo-500\/20,
+[data-theme="academic-paper"] .bg-indigo-600\/20,
+[data-theme="academic-paper"] .bg-indigo-900\/40,
+[data-theme="academic-paper"] .bg-indigo-900\/60,
+[data-theme="academic-paper"] .bg-indigo-950\/10,
+[data-theme="academic-paper"] .bg-indigo-950\/40,
+[data-theme="academic-paper"] .bg-indigo-950\/60 {
   background-color: var(--accent-soft) !important;
 }
 [data-theme="academic-paper"] .border-indigo-500,
 [data-theme="academic-paper"] .border-indigo-500\/20,
-[data-theme="academic-paper"] .border-indigo-500\/30 {
+[data-theme="academic-paper"] .border-indigo-500\/25,
+[data-theme="academic-paper"] .border-indigo-500\/30,
+[data-theme="academic-paper"] .border-indigo-500\/40,
+[data-theme="academic-paper"] .border-indigo-500\/50 {
   border-color: var(--accent-border) !important;
 }
 
@@ -899,23 +990,29 @@ button:disabled {
 }
 [data-theme="academic-paper"] .bg-emerald-950\/20,
 [data-theme="academic-paper"] .bg-emerald-950\/30,
+[data-theme="academic-paper"] .bg-emerald-950\/40,
+[data-theme="academic-paper"] .bg-emerald-950\/60,
 [data-theme="academic-paper"] .bg-emerald-500\/10,
 [data-theme="academic-paper"] .bg-emerald-500\/15,
 [data-theme="academic-paper"] .bg-emerald-500\/20 {
   background-color: rgba(4, 120, 87, 0.08) !important;
 }
 [data-theme="academic-paper"] .border-emerald-500\/30,
+[data-theme="academic-paper"] .border-emerald-500\/40,
 [data-theme="academic-paper"] .border-emerald-500\/50,
+[data-theme="academic-paper"] .border-emerald-900\/30,
 [data-theme="academic-paper"] .border-emerald-900\/40 {
   border-color: rgba(4, 120, 87, 0.28) !important;
 }
 
 [data-theme="academic-paper"] .text-amber-400,
-[data-theme="academic-paper"] .text-amber-300 {
+[data-theme="academic-paper"] .text-amber-300,
+[data-theme="academic-paper"] .text-amber-200 {
   color: #B45309 !important;
 }
 [data-theme="academic-paper"] .bg-amber-500\/10,
-[data-theme="academic-paper"] .bg-amber-500\/20 {
+[data-theme="academic-paper"] .bg-amber-500\/20,
+[data-theme="academic-paper"] .bg-amber-950\/40 {
   background-color: rgba(180, 83, 9, 0.09) !important;
 }
 [data-theme="academic-paper"] .border-amber-500\/30,
@@ -924,11 +1021,15 @@ button:disabled {
 }
 
 [data-theme="academic-paper"] .text-rose-400,
-[data-theme="academic-paper"] .text-rose-300 {
+[data-theme="academic-paper"] .text-rose-300,
+[data-theme="academic-paper"] .text-rose-200 {
   color: #BE123C !important;
 }
 [data-theme="academic-paper"] .bg-rose-500\/10,
-[data-theme="academic-paper"] .bg-rose-950\/50 {
+[data-theme="academic-paper"] .bg-rose-950\/10,
+[data-theme="academic-paper"] .bg-rose-950\/40,
+[data-theme="academic-paper"] .bg-rose-950\/50,
+[data-theme="academic-paper"] .bg-rose-950\/60 {
   background-color: rgba(190, 18, 60, 0.08) !important;
 }
 
