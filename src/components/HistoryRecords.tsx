@@ -25,14 +25,18 @@ export const HistoryRecords: React.FC<HistoryRecordsProps> = ({
   }
 
   return (
-    <div className="space-y-6">
-      <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-6 animate-fadeIn">
+      <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 sm:p-6 backdrop-blur-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-indigo-400" />
-            测试战报与评测历史
-          </h2>
-          <p className="text-xs text-slate-400 mt-1">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0">
+              <TrendingUp className="w-4 h-4 text-indigo-400" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+              测试战报与评测历史
+            </h2>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-400 mt-1.5">
             长期追踪人类答题水平与多款大模型基准智商评测数据
           </p>
         </div>
@@ -95,14 +99,14 @@ export const HistoryRecords: React.FC<HistoryRecordsProps> = ({
               return (
                 <div
                   key={item.id || idx}
-                  className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all hover:-translate-y-0.5"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-indigo-950/60 border border-indigo-500/30 flex flex-col items-center justify-center">
-                      <span className="text-xl font-black text-indigo-300">
+                    <div className="w-16 h-16 rounded-2xl iq-badge-human flex flex-col items-center justify-center shrink-0">
+                      <span className="text-2xl font-black font-mono leading-none">
                         {item.estimatedIQ}
                       </span>
-                      <span className="text-[9px] uppercase font-mono text-slate-400">
+                      <span className="text-[9px] uppercase font-mono opacity-75 mt-1">
                         IQ
                       </span>
                     </div>
@@ -156,14 +160,14 @@ export const HistoryRecords: React.FC<HistoryRecordsProps> = ({
               return (
                 <div
                   key={item.id || idx}
-                  className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all hover:-translate-y-0.5"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-purple-950/60 border border-purple-500/30 flex flex-col items-center justify-center">
-                      <span className="text-xl font-black text-purple-300">
+                    <div className="w-16 h-16 rounded-2xl iq-badge-ai flex flex-col items-center justify-center shrink-0">
+                      <span className="text-2xl font-black font-mono leading-none">
                         {item.estimatedIQ}
                       </span>
-                      <span className="text-[9px] uppercase font-mono text-slate-400">
+                      <span className="text-[9px] uppercase font-mono opacity-75 mt-1">
                         AI IQ
                       </span>
                     </div>

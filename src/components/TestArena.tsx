@@ -218,19 +218,19 @@ export const TestArena: React.FC<TestArenaProps> = ({
 
   if (stage === 'setup') {
     return (
-      <div className="max-w-3xl mx-auto space-y-6">
-        <div className="bg-slate-900/70 border border-slate-800 rounded-3xl p-8 backdrop-blur-sm text-center relative overflow-hidden">
+      <div className="max-w-3xl mx-auto space-y-6 animate-fadeIn">
+        <div className="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 sm:p-10 backdrop-blur-sm text-center relative overflow-hidden">
           <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-indigo-500/20">
+          <div className="brand-logo-box w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center mx-auto mb-5 shadow-xl shadow-indigo-500/20">
             <Sparkles className="w-8 h-8 text-white" />
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
             智能体与数理智商标准评测
           </h2>
-          <p className="text-slate-400 text-sm max-w-lg mx-auto mt-2">
+          <p className="text-slate-400 text-sm max-w-lg mx-auto mt-2.5 leading-relaxed">
             题库涵盖高阶微积分极限、贝叶斯逆概率、阿里全球数学竞赛真题、李代数特征空间与信息熵极值，全方位评估抽象代数与深度推断能力。
           </p>
 
@@ -340,51 +340,62 @@ export const TestArena: React.FC<TestArenaProps> = ({
     const isFlagged = flaggedIds.has(currentQ.id)
     const answeredCount = Object.keys(userAnswers).length
 
-    return (
-      <div className="max-w-5xl mx-auto space-y-5">
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center justify-between backdrop-blur-md">
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-xs font-bold px-2.5 py-1 rounded-lg bg-indigo-600 text-white">
-              第 {currentIndex + 1} / {testQuestions.length} 题
-            </span>
-            <span className="text-xs px-2.5 py-1 rounded-lg bg-slate-800 text-indigo-300 border border-slate-700">
-              {getCategoryInfo(currentQ.category).icon} {getCategoryInfo(currentQ.category).label}
-            </span>
-            <span
-              className={`text-xs px-2 py-0.5 rounded-md border hidden sm:inline ${
-                DIFFICULTY_LABELS[currentQ.difficulty]?.badge
-              }`}
-            >
-              {DIFFICULTY_LABELS[currentQ.difficulty]?.label}
-            </span>
-          </div>
+    const progressPercent = Math.round(((currentIndex + 1) / testQuestions.length) * 100)
 
-          <div className="flex items-center gap-4">
-            {hasTimer && (
-              <div
-                className={`flex items-center gap-1.5 font-mono text-sm font-bold px-3 py-1 rounded-lg border ${
-                  remainingSeconds < 180
-                    ? 'bg-rose-950/50 text-rose-400 border-rose-500/50 animate-pulse'
-                    : 'bg-slate-950 text-cyan-400 border-slate-800'
+    return (
+      <div className="max-w-5xl mx-auto space-y-5 animate-fadeIn">
+        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 backdrop-blur-md space-y-3">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <span className="font-mono text-xs font-bold px-2.5 py-1 rounded-lg bg-indigo-600 text-white">
+                第 {currentIndex + 1} / {testQuestions.length} 题
+              </span>
+              <span className="text-xs px-2.5 py-1 rounded-lg bg-slate-800 text-indigo-300 border border-slate-700">
+                {getCategoryInfo(currentQ.category).icon} {getCategoryInfo(currentQ.category).label}
+              </span>
+              <span
+                className={`text-xs px-2 py-0.5 rounded-md border hidden sm:inline ${
+                  DIFFICULTY_LABELS[currentQ.difficulty]?.badge
                 }`}
               >
-                <Clock className="w-4 h-4" />
-                <span>{formatTime(remainingSeconds)}</span>
-              </div>
-            )}
+                {DIFFICULTY_LABELS[currentQ.difficulty]?.label}
+              </span>
+            </div>
 
-            <button
-              onClick={() => toggleFlag(currentQ.id)}
-              className={`flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg border transition-colors ${
-                isFlagged
-                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                  : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
-              }`}
-              title="标记为疑难题稍后检查"
-            >
-              <Flag className={`w-3.5 h-3.5 ${isFlagged ? 'fill-amber-400 text-amber-400' : ''}`} />
-              <span className="hidden sm:inline">标记待查</span>
-            </button>
+            <div className="flex items-center gap-3">
+              {hasTimer && (
+                <div
+                  className={`flex items-center gap-1.5 font-mono text-sm font-bold px-3 py-1 rounded-lg border ${
+                    remainingSeconds < 180
+                      ? 'bg-rose-950/50 text-rose-400 border-rose-500/50 animate-pulse'
+                      : 'bg-slate-950 text-cyan-400 border-slate-800'
+                  }`}
+                >
+                  <Clock className="w-4 h-4" />
+                  <span>{formatTime(remainingSeconds)}</span>
+                </div>
+              )}
+
+              <button
+                onClick={() => toggleFlag(currentQ.id)}
+                className={`flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg border transition-colors ${
+                  isFlagged
+                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                    : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
+                }`}
+                title="标记为疑难题稍后检查"
+              >
+                <Flag className={`w-3.5 h-3.5 ${isFlagged ? 'fill-amber-400 text-amber-400' : ''}`} />
+                <span className="hidden sm:inline">标记待查</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="w-full h-1.5 rounded-full bg-slate-950 overflow-hidden border border-slate-800/60">
+            <div
+              className="h-full bg-indigo-600 rounded-full transition-all duration-300"
+              style={{ width: `${progressPercent}%` }}
+            />
           </div>
         </div>
 

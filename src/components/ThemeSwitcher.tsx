@@ -83,7 +83,12 @@ export const ThemeSwitcher: React.FC = () => {
                     </div>
                   </div>
 
-                  {isSelected && <Check className="w-4 h-4 text-[#D97757] shrink-0" />}
+                  {isSelected && (
+                    <Check
+                      className="w-4 h-4 shrink-0"
+                      style={{ color: opt.previewAccent }}
+                    />
+                  )}
                 </button>
               )
             })}

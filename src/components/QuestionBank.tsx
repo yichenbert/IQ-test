@@ -112,16 +112,26 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
   }
 
   return (
-    <div className="space-y-6">
-      <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm">
+    <div className="space-y-6 animate-fadeIn">
+      <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 sm:p-6 backdrop-blur-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-xl font-bold text-white flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-indigo-400" />
-              题库资源管理器
-            </h1>
-            <p className="text-xs text-slate-400 mt-1">
-              当前收录 <span className="text-indigo-400 font-semibold">{questions.length}</span> 道高阶理数推理题目，支持全公式 LaTeX 实时渲染与格式化导出
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0">
+                <BookOpen className="w-4 h-4 text-indigo-400" />
+              </div>
+              <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                题库资源管理器
+              </h1>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-400 mt-1.5">
+              当前收录 <span className="text-indigo-400 font-semibold font-mono">{questions.length}</span> 道高阶理数推理题目
+              {filteredQuestions.length !== questions.length && (
+                <span>
+                  {' '}· 已筛选出 <span className="text-indigo-400 font-semibold font-mono">{filteredQuestions.length}</span> 道
+                </span>
+              )}
+              ，支持全公式 LaTeX 实时渲染与格式化导出
             </p>
           </div>
 
@@ -129,7 +139,7 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
             {onOpenAIImport && (
               <button
                 onClick={onOpenAIImport}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white shadow-lg shadow-purple-600/20 transition-all"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white shadow-md shadow-purple-600/20 transition-all active:scale-[0.98]"
                 title="上传图片或截图，AI 自动识别题干、题型与排版答案"
               >
                 <Sparkles className="w-3.5 h-3.5" />
@@ -139,7 +149,7 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
 
             <button
               onClick={onAddQuestion}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/30 transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/25 transition-all active:scale-[0.98]"
             >
               <Plus className="w-4 h-4" />
               <span>录入新题</span>
@@ -147,7 +157,7 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
 
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/60 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/60 transition-all active:scale-[0.98]"
               title="导入本地 JSON 题库"
             >
               <Upload className="w-3.5 h-3.5 text-cyan-400" />
@@ -163,7 +173,7 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
 
             <button
               onClick={onExportQuestions}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/60 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/60 transition-all active:scale-[0.98]"
               title="导出完整题库为 JSON"
             >
               <Download className="w-3.5 h-3.5 text-emerald-400" />
@@ -176,7 +186,7 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
                   onResetDefault()
                 }
               }}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-rose-950/40 text-slate-300 hover:text-rose-300 border border-slate-700/60 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-rose-950/40 text-slate-300 hover:text-rose-300 border border-slate-700/60 transition-all active:scale-[0.98]"
               title="恢复初始经典题库"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -314,9 +324,9 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
             return (
               <div
                 key={q.id}
-                className="bg-slate-900/50 hover:bg-slate-900/80 border border-slate-800 hover:border-slate-700/80 rounded-2xl p-5 transition-all shadow-sm"
+                className="bg-slate-900/50 hover:bg-slate-900/80 border border-slate-800 hover:border-slate-700/80 rounded-2xl p-5 sm:p-6 transition-all duration-200 hover:-translate-y-0.5 shadow-sm"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800/60">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-slate-800/60">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-xs font-mono text-slate-400 font-bold px-2 py-0.5 rounded bg-slate-800">
                       #{index + 1}
@@ -471,18 +481,18 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
                 </div>
 
                 {isExpanded && (
-                  <div className="mt-4 p-4 rounded-xl bg-slate-950/90 border border-emerald-900/40 space-y-3">
-                    <div className="flex items-center justify-between text-xs pb-2 border-b border-slate-800">
+                  <div className="mt-4 p-4 sm:p-5 rounded-xl bg-slate-950/90 border border-emerald-900/40 border-l-4 border-l-emerald-500 space-y-3 animate-fadeIn">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs pb-2.5 border-b border-slate-800">
                       <span className="font-semibold text-emerald-400 flex items-center gap-1.5">
                         <Sparkles className="w-3.5 h-3.5" />
                         {q.type === 'free-response' ? '官方标准证明与完整推导过程' : '标准答案与详细推导过程'}
                       </span>
-                      <span className="font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      <span className="font-mono font-semibold px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                         {q.type === 'free-response' ? '结论/要点: ' : '答案: '}
                         {Array.isArray(q.answer) ? q.answer.join(', ') : q.answer}
                       </span>
                     </div>
-                    <div className="text-xs sm:text-sm">
+                    <div className="text-xs sm:text-sm leading-relaxed">
                       <MathRenderer content={q.explanation} />
                     </div>
                   </div>

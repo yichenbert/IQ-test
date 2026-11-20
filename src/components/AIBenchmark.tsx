@@ -237,8 +237,8 @@ export const AIBenchmark: React.FC<AIBenchmarkProps> = ({
   }
 
   return (
-    <div className="space-y-6">
-      <div className="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 backdrop-blur-sm">
+    <div className="space-y-6 animate-fadeIn">
+      <div className="bg-slate-900/70 border border-slate-800 rounded-3xl p-5 sm:p-6 backdrop-blur-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center text-white shadow-lg shadow-purple-600/20">
